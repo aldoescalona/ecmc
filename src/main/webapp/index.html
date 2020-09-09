@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>  
+        <h1>Hello World!</h1>
+
+        imagen/upload/{entidad}/{id}<br>
+        <form action="http://localhost:8080/ecmc/v1/imagen/upload/galeria/1" method="post" enctype="multipart/form-data">
+            <input name="file" id="filename" type="file" /><br><br>
+            <button name="submit" type="submit">Upload</button>
+        </form>
+        
+        imagen/galeria/upload<br>
+        <form action="http://localhost:8080/ecmc/v1/galeria/upload" method="post" enctype="multipart/form-data">
+            <input name="file" id="filename" type="file" /><br><br>
+            <button name="submit" type="submit">Upload</button>
+        </form>
+    </body>
+</html>
