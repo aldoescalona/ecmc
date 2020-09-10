@@ -12,9 +12,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import io.swagger.jaxrs.config.BeanConfig;
-import io.swagger.jaxrs.listing.ApiListingResource;
-import io.swagger.jaxrs.listing.SwaggerSerializers;
 import java.util.HashSet;
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -32,7 +29,7 @@ public class ApplicationConfig extends Application {
         conf.setDescription("Payfast ");
         conf.setVersion("1.0.0");
         conf.setHost("localhost:8080");
-        conf.setBasePath("/fj36-payfast/v1");
+        conf.setBasePath("/swagger/v1");
         conf.setSchemes(new String[]{"http"});
         conf.setResourcePackage("com.cmc.app.rest");
         conf.setScan(true);

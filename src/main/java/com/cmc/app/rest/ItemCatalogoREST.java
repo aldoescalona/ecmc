@@ -82,7 +82,7 @@ public class ItemCatalogoREST {
     }
 
     @GET
-    @Path("{catalogoId}")
+    @Path("elementos/{catalogoId}")
     @Produces(MediaType.APPLICATION_JSON)
     @TokenSecured
     public List<ItemCatalogo> findAll(@PathParam("catalogoId") Integer catalogoId) {

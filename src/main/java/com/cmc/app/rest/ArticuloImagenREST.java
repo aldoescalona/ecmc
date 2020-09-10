@@ -120,7 +120,7 @@ public class ArticuloImagenREST {
     }
 
     @GET
-    @Path("{articuloId}")
+    @Path("imagenes/{articuloId}")
     @Produces(MediaType.APPLICATION_JSON)
     @TokenSecured
     public List<ArticuloImagen> findAll(@PathParam("articuloId") Integer articuloId) {
@@ -143,6 +143,7 @@ public class ArticuloImagenREST {
         return String.valueOf(articuloImagenFacade.count());
     }
     
+    @POST
     @Path("ordenar")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -157,7 +158,6 @@ public class ArticuloImagenREST {
         });
         return Response.ok(new Respuesta(true, "OK")).build();
     }
-
 
     
     @POST
