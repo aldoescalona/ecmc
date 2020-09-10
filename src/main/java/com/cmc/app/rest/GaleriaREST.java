@@ -10,6 +10,8 @@ import com.cmc.app.bean.Imagen;
 import com.cmc.app.model.Respuesta;
 import com.cmc.app.security.UsuarioContext;
 import com.cmc.app.security.TokenSecured;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -43,6 +45,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  * @author Aldo
  */
 @Path("galeria")
+@Api(value = "Galeria")
 public class GaleriaREST {
 
     @EJB
@@ -59,6 +62,7 @@ public class GaleriaREST {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Alta Galeria")
     @TokenSecured
     public void create(Galeria entity) {
         galeriaFacade.create(entity);
@@ -139,15 +143,14 @@ public class GaleriaREST {
     @Produces(MediaType.APPLICATION_JSON)
     @TokenSecured
     public Response ordenar(List<Galeria> list) {
-        list.stream().map((galeria) -> {
-            Galeria persistente = galeriaFacade.find(galeria.getId());
-            persistente.setOrden(galeria.getOrden());
+        list.stream().map((ent) -> {
+            Galeria persistente = galeriaFacade.find(ent.getId());
+            persistente.setOrden(ent.getOrden());
             return persistente;
-        }).forEachOrdered((persistente) -> {
+        }).forEach((persistente) -> {
             galeriaFacade.edit(persistente);
         });
         return Response.ok(new Respuesta(true, "OK")).build();
-
     }
 
     @POST
@@ -203,7 +206,7 @@ public class GaleriaREST {
                         out.close();
 
                         Thumbnails.of(destinolg).size(360, 360).outputQuality(0.75).toFile(destinomd);
-                        Thumbnails.of(destinolg).size(200, 200).outputQuality(0.75).toFile(destinosm);
+                        Thumbnails.of(destinolg).size(150, 150).outputQuality(0.75).toFile(destinosm);
 
                         imagen = new Imagen();
                         imagen.setId(nextIdFacade.nextIdImagen());

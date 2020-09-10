@@ -5,22 +5,13 @@
  */
 package com.cmc.app.facade;
 
-import com.cmc.app.rest.*;
-import com.cmc.app.facade.AbstractFacade;
+import com.cmc.app.bean.Articulo;
 import com.cmc.app.bean.ItemCatalogo;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import javax.persistence.Query;
 
 /**
  *
@@ -39,6 +30,14 @@ public class ItemCatalogoFacade extends AbstractFacade<ItemCatalogo> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    public List<ItemCatalogo> getItems(Integer catalogoId) {
+
+        Query query = getEntityManager().createQuery("SELECT e FROM ItemCatalogo e WHERE e.catalogoId.id = :catId");
+        query.setParameter("catId", catalogoId);
+
+        return query.getResultList();
     }
     
 }

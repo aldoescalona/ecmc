@@ -117,5 +117,22 @@ public class CategoriaREST {
     public String countREST() {
         return String.valueOf(categoriaFacade.count());
     }
+    
+    @POST
+    @Path("ordenar")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @TokenSecured
+    public Response ordenar(List<Categoria> list) {
+        list.stream().map((ent) -> {
+            Categoria persistente = categoriaFacade.find(ent.getId());
+            persistente.setOrden(ent.getOrden());
+            return persistente;
+        }).forEachOrdered((persistente) -> {
+            categoriaFacade.edit(persistente);
+        });
+        return Response.ok(new Respuesta(true, "OK")).build();
+
+    }
 
 }

@@ -184,7 +184,7 @@ public class ImagenREST {
                         out.close();
                         
                         Thumbnails.of(destinolg).size(360, 360).outputQuality(0.75).toFile(destinomd);
-                        Thumbnails.of(destinolg).size(200, 200).outputQuality(0.75).toFile(destinosm);
+                        Thumbnails.of(destinolg).size(150, 150).outputQuality(0.75).toFile(destinosm);
 
                         imagen = new Imagen();
                         imagen.setImglg(lg);

@@ -41,9 +41,10 @@ public abstract class AbstractFacade<T> {
     }
 
     public List<T> findAll() {
-        String jql = "Select g from Galeria as g order by g.orden";
-        Query sortQuery = getEntityManager().createQuery(jql);
-        return sortQuery.getResultList();
+        javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+        cq.select(cq.from(entityClass));
+        return getEntityManager().createQuery(cq).getResultList();
+
     }
 
     public List<T> findRange(int[] range) {

@@ -82,10 +82,11 @@ public class ItemCatalogoREST {
     }
 
     @GET
+    @Path("{catalogoId}")
     @Produces(MediaType.APPLICATION_JSON)
     @TokenSecured
-    public List<ItemCatalogo> findAll() {
-        return itemCatalogoFacade.findAll();
+    public List<ItemCatalogo> findAll(@PathParam("catalogoId") Integer catalogoId) {
+        return itemCatalogoFacade.getItems(catalogoId);
     }
 
     @GET

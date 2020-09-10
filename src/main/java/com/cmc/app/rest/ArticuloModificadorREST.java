@@ -5,8 +5,10 @@
  */
 package com.cmc.app.rest;
 
+import com.cmc.app.bean.Articulo;
 import com.cmc.app.bean.ArticuloModificador;
 import com.cmc.app.model.Respuesta;
+import com.cmc.app.security.TokenSecured;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -31,25 +33,53 @@ public class ArticuloModificadorREST {
     private com.cmc.app.facade.ArticuloModificadorFacade articuloModificadorFacade;
 
     @EJB
+    private com.cmc.app.facade.ArticuloFacade articuloFacade;
+
+    
+    @EJB
     private com.cmc.app.facade.NextIdFacade nextIdFacade;
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @TokenSecured
     public Response create(ArticuloModificador entity) {
         entity.setId(nextIdFacade.nextIdArticuloModificador());
         articuloModificadorFacade.create(entity);
+        return Response.ok(new Respuesta(true, "OK")).build();
+    }
+    
+    @POST
+    @Path("{articuloId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @TokenSecured
+    public Response modificadores(List<ArticuloModificador> list, @PathParam("articuloId") Integer articuloId) {
+        
+        articuloModificadorFacade.clean(articuloId);
+        
+        Articulo parent = articuloFacade.find(articuloId);
+        
+        list.stream().map((ent)->{
+            ent.setId(nextIdFacade.nextIdArticuloModificador());
+            ent.setArticuloId(parent);
+            return ent;
+        }).forEach((ent) -> {
+            articuloModificadorFacade.create(ent);
+        });
+        
         return Response.ok(new Respuesta(true, "OK")).build();
     }
 
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @TokenSecured
     public void edit(@PathParam("id") Integer id, ArticuloModificador entity) {
         articuloModificadorFacade.edit(entity);
     }
 
     @DELETE
     @Path("{id}")
+    @TokenSecured
     public void remove(@PathParam("id") Integer id) {
         articuloModificadorFacade.remove(articuloModificadorFacade.find(id));
     }
@@ -57,12 +87,14 @@ public class ArticuloModificadorREST {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
+    @TokenSecured
     public ArticuloModificador find(@PathParam("id") Integer id) {
         return articuloModificadorFacade.find(id);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @TokenSecured
     public List<ArticuloModificador> findAll() {
         return articuloModificadorFacade.findAll();
     }
@@ -70,6 +102,7 @@ public class ArticuloModificadorREST {
     @GET
     @Path("{from}/{to}")
     @Produces(MediaType.APPLICATION_JSON)
+    @TokenSecured
     public List<ArticuloModificador> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return articuloModificadorFacade.findRange(new int[]{from, to});
     }
@@ -77,6 +110,7 @@ public class ArticuloModificadorREST {
     @GET
     @Path("count")
     @Produces(MediaType.TEXT_PLAIN)
+    @TokenSecured
     public String countREST() {
         return String.valueOf(articuloModificadorFacade.count());
     }

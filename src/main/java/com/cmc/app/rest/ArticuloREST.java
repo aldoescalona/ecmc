@@ -7,6 +7,7 @@ package com.cmc.app.rest;
 
 import com.cmc.app.bean.Articulo;
 import com.cmc.app.bean.Categoria;
+import com.cmc.app.bean.Galeria;
 import com.cmc.app.model.Respuesta;
 import com.cmc.app.security.TokenSecured;
 import java.util.List;
@@ -105,5 +106,42 @@ public class ArticuloREST {
     public String countREST() {
         return String.valueOf(articuloFacade.count());
     }
+    
+    @PUT
+    @Path("activar/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @TokenSecured
+    public void activar(@PathParam("id") Integer id) {
+        Articulo ent = articuloFacade.find(id);
+        ent.setActivo(Boolean.TRUE);
+        articuloFacade.edit(ent);
+    }
+    
+    @PUT
+    @Path("inactivar/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @TokenSecured
+    public void inactivar(@PathParam("id") Integer id) {
+        Articulo ent = articuloFacade.find(id);
+        ent.setActivo(Boolean.FALSE);
+        articuloFacade.edit(ent);
+    }
 
+    
+    @POST
+    @Path("ordenar")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @TokenSecured
+    public Response ordenar(List<Articulo> list) {
+        list.stream().map((ent) -> {
+            Articulo persistente = articuloFacade.find(ent.getId());
+            persistente.setOrden(ent.getOrden());
+            return persistente;
+        }).forEachOrdered((persistente) -> {
+            articuloFacade.edit(persistente);
+        });
+        return Response.ok(new Respuesta(true, "OK")).build();
+
+    }
 }

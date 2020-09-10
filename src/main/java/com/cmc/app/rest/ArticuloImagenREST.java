@@ -7,6 +7,7 @@ package com.cmc.app.rest;
 
 import com.cmc.app.bean.Articulo;
 import com.cmc.app.bean.ArticuloImagen;
+import com.cmc.app.bean.Galeria;
 import com.cmc.app.bean.Imagen;
 import com.cmc.app.model.Respuesta;
 import com.cmc.app.security.TokenSecured;
@@ -119,10 +120,11 @@ public class ArticuloImagenREST {
     }
 
     @GET
+    @Path("{articuloId}")
     @Produces(MediaType.APPLICATION_JSON)
     @TokenSecured
-    public List<ArticuloImagen> findAll() {
-        return articuloImagenFacade.findAll();
+    public List<ArticuloImagen> findAll(@PathParam("articuloId") Integer articuloId) {
+        return articuloImagenFacade.getImagenes(articuloId);
     }
 
     @GET
@@ -140,6 +142,22 @@ public class ArticuloImagenREST {
     public String countREST() {
         return String.valueOf(articuloImagenFacade.count());
     }
+    
+    @Path("ordenar")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @TokenSecured
+    public Response ordenar(List<ArticuloImagen> list) {
+        list.stream().map((ent) -> {
+            ArticuloImagen persistente = articuloImagenFacade.find(ent.getId());
+            persistente.setOrden(ent.getOrden());
+            return persistente;
+        }).forEachOrdered((persistente) -> {
+            articuloImagenFacade.edit(persistente);
+        });
+        return Response.ok(new Respuesta(true, "OK")).build();
+    }
+
 
     
     @POST
@@ -197,7 +215,7 @@ public class ArticuloImagenREST {
                         out.close();
 
                         Thumbnails.of(destinolg).size(360, 360).outputQuality(0.75).toFile(destinomd);
-                        Thumbnails.of(destinolg).size(200, 200).outputQuality(0.75).toFile(destinosm);
+                        Thumbnails.of(destinolg).size(150, 150).outputQuality(0.75).toFile(destinosm);
 
                         imagen = new Imagen();
                         imagen.setId(nextIdFacade.nextIdImagen());

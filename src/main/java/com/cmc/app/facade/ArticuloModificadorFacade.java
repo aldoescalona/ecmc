@@ -5,22 +5,11 @@
  */
 package com.cmc.app.facade;
 
-import com.cmc.app.rest.*;
-import com.cmc.app.facade.AbstractFacade;
 import com.cmc.app.bean.ArticuloModificador;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import javax.persistence.Query;
 
 /**
  *
@@ -41,5 +30,13 @@ public class ArticuloModificadorFacade extends AbstractFacade<ArticuloModificado
     protected EntityManager getEntityManager() {
         return em;
     }
+    
+    public void clean(Integer articuloId){
+        Query q = getEntityManager().createQuery("DELETE from ArticuloModificador e WHERE e.articuloId.id = :artId");
+        q.setParameter("artId", articuloId);
+        
+        q.executeUpdate();
+    }
+    
     
 }

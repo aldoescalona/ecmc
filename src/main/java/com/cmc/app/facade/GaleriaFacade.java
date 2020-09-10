@@ -6,9 +6,11 @@
 package com.cmc.app.facade;
 
 import com.cmc.app.bean.Galeria;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -42,4 +44,9 @@ public class GaleriaFacade extends AbstractFacade<Galeria> {
         return ord;
     }
 
+    public List<Galeria> findAll() {
+        String jql = "Select g from Galeria as g order by g.orden";
+        Query sortQuery = getEntityManager().createQuery(jql);
+        return sortQuery.getResultList();
+    }
 }

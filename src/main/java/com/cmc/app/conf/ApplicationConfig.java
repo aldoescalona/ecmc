@@ -12,6 +12,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import io.swagger.jaxrs.config.BeanConfig;
+import io.swagger.jaxrs.listing.ApiListingResource;
+import io.swagger.jaxrs.listing.SwaggerSerializers;
 import java.util.HashSet;
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -23,42 +26,57 @@ import javax.ws.rs.core.Application;
 @javax.ws.rs.ApplicationPath("v1")
 public class ApplicationConfig extends Application {
 
+    /*public ApplicationConfig() {
+        BeanConfig conf = new BeanConfig();
+        conf.setTitle("Payfast API");
+        conf.setDescription("Payfast ");
+        conf.setVersion("1.0.0");
+        conf.setHost("localhost:8080");
+        conf.setBasePath("/fj36-payfast/v1");
+        conf.setSchemes(new String[]{"http"});
+        conf.setResourcePackage("com.cmc.app.rest");
+        conf.setScan(true);
+    }*/
+
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
         addRestResourceClasses(resources);
+        // resources.add(JacksonJavaTimeConfiguration.class);
+        //resources.add(ApiListingResource.class);
+        //resources.add(SwaggerSerializers.class);
         return resources;
     }
-    
+
     @Override
     public Set<Object> getSingletons() {
         Set<Object> set = new HashSet();
         set.add(new JacksonJsonProvider(newObjectMapper()));
         return set;
     }
-    
+
     private static ObjectMapper newObjectMapper() {
         System.out.println(" CONFIGURAR ObjectMapper   \t[OK]");
         ObjectMapper m = new ObjectMapper();
-         
-         m.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+
+        m.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         m.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         m.configure(SerializationFeature.INDENT_OUTPUT, true); // Different from default so you can test it :)
         m.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         m.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-        
+
         // Customization goes here...
         return m;
     }
 
     /**
-     * Do not modify addRestResourceClasses() method.
-     * It is automatically populated with
-     * all resources defined in the project.
-     * If required, comment out calling this method in getClasses().
+     * Do not modify addRestResourceClasses() method. It is automatically
+     * populated with all resources defined in the project. If required, comment
+     * out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.cmc.app.conf.CrossOriginResourceSharingFilter.class);
+        resources.add(com.cmc.app.facade.MensajeFacade.class);
         resources.add(com.cmc.app.rest.ArticuloImagenREST.class);
         resources.add(com.cmc.app.rest.ArticuloModificadorREST.class);
         resources.add(com.cmc.app.rest.ArticuloREST.class);
@@ -74,5 +92,5 @@ public class ApplicationConfig extends Application {
         resources.add(com.cmc.app.security.CustomExceptionMapper.class);
         resources.add(com.cmc.app.security.TokenSecurityFilter.class);
     }
-    
+
 }
