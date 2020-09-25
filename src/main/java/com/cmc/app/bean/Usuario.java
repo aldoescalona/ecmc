@@ -33,12 +33,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
     , @NamedQuery(name = "Usuario.findById", query = "SELECT u FROM Usuario u WHERE u.id = :id")
     , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
-    , @NamedQuery(name = "Usuario.findByPasssword", query = "SELECT u FROM Usuario u WHERE u.passsword = :passsword")
+    , @NamedQuery(name = "Usuario.findByPassword", query = "SELECT u FROM Usuario u WHERE u.password = :password")
     , @NamedQuery(name = "Usuario.findByActivo", query = "SELECT u FROM Usuario u WHERE u.activo = :activo")
     , @NamedQuery(name = "Usuario.findByRoot", query = "SELECT u FROM Usuario u WHERE u.root = :root")})
 @NamedNativeQuery(
     name="Usuario.login",
-    query="SELECT u.* FROM usuario u WHERE u.cuenta = ? AND u.passsword = ? AND u.activo = 1",
+    query="SELECT u.* FROM usuario u WHERE u.cuenta = ? AND u.password = ? AND u.activo = 1",
     resultClass=Usuario.class
 )
 public class Usuario implements Serializable {
@@ -63,7 +63,7 @@ public class Usuario implements Serializable {
     @NotNull
     @Size(min = 1, max = 60)
     @Column(name = "passsword")
-    private String passsword;
+    private String password;
     @Basic(optional = false)
     @NotNull
     @Column(name = "activo")
@@ -81,10 +81,10 @@ public class Usuario implements Serializable {
         this.id = id;
     }
 
-    public Usuario(Integer id, String nombre, String passsword, boolean activo, boolean root) {
+    public Usuario(Integer id, String nombre, String password, boolean activo, boolean root) {
         this.id = id;
         this.nombre = nombre;
-        this.passsword = passsword;
+        this.password = password;
         this.activo = activo;
         this.root = root;
     }
@@ -113,12 +113,12 @@ public class Usuario implements Serializable {
         this.cuenta = cuenta;
     }
 
-    public String getPasssword() {
-        return passsword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasssword(String passsword) {
-        this.passsword = passsword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public boolean getActivo() {
