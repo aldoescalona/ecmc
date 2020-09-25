@@ -117,7 +117,7 @@ public class GaleriaREST {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @TokenSecured
+    //@TokenSecured
     public List<Galeria> findAll() {
         return galeriaFacade.findAll();
     }
