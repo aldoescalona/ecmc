@@ -89,20 +89,21 @@ public class ItemCatalogoREST {
         return itemCatalogoFacade.getItems(catalogoId);
     }
 
+
     @GET
-    @Path("{from}/{to}")
+    @Path("elementos/{catalogoId}/{from}/{to}")
     @Produces(MediaType.APPLICATION_JSON)
     @TokenSecured
-    public List<ItemCatalogo> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return itemCatalogoFacade.findRange(new int[]{from, to});
+    public List<ItemCatalogo> findRange(@PathParam("catalogoId") Integer catalogoId, @PathParam("from") Integer from, @PathParam("to") Integer to) {
+        return itemCatalogoFacade.getItemsRange(catalogoId, new int[]{from, to});
     }
 
     @GET
-    @Path("count")
+    @Path("elementos/count/{catalogoId}")
     @Produces(MediaType.TEXT_PLAIN)
     @TokenSecured
-    public String countREST() {
-        return String.valueOf(itemCatalogoFacade.count());
+    public String countREST(@PathParam("catalogoId") Integer catalogoId) {
+        return String.valueOf(itemCatalogoFacade.getCountItems(catalogoId));
     }
 
 }

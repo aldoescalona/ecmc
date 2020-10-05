@@ -37,6 +37,27 @@ public class ItemCatalogoFacade extends AbstractFacade<ItemCatalogo> {
         Query query = getEntityManager().createQuery("SELECT e FROM ItemCatalogo e WHERE e.catalogoId.id = :catId");
         query.setParameter("catId", catalogoId);
 
+
+        return query.getResultList();
+    }
+
+    public int getCountItems(Integer catalogoId) {
+
+        Query query = getEntityManager().createQuery("SELECT count(e) FROM ItemCatalogo e WHERE e.catalogoId.id = :catId");
+        query.setParameter("catId", catalogoId);
+
+
+        return ((Long)query.getSingleResult()).intValue();
+    }
+
+    public List<ItemCatalogo> getItemsRange(Integer catalogoId, int[] range) {
+
+        Query query = getEntityManager().createQuery("SELECT e FROM ItemCatalogo e WHERE e.catalogoId.id = :catId");
+        query.setParameter("catId", catalogoId);
+
+        query.setMaxResults(range[1] - range[0] + 1);
+        query.setFirstResult(range[0]);
+
         return query.getResultList();
     }
     
