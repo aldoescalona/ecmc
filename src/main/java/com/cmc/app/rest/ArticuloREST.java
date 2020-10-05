@@ -7,7 +7,6 @@ package com.cmc.app.rest;
 
 import com.cmc.app.bean.Articulo;
 import com.cmc.app.bean.Categoria;
-import com.cmc.app.bean.Galeria;
 import com.cmc.app.model.Respuesta;
 import com.cmc.app.security.TokenSecured;
 import java.util.List;

@@ -27,12 +27,6 @@ public class MensajeFacade extends AbstractFacade<Mensaje> {
         super(Mensaje.class);
     }
 
-    @POST
-    @Override
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void create(Mensaje entity) {
-        super.create(entity);
-    }
 
     @Override
     protected EntityManager getEntityManager() {

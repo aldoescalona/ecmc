@@ -52,7 +52,7 @@ public class ArticuloImagenFacade extends AbstractFacade<ArticuloImagen> {
     
     public List<ArticuloImagen> getImagenes(Integer articuloId) {
 
-        Query query = getEntityManager().createQuery("SELECT e FROM ArticuloImagen e WHERE e.articuloId.id = :artId");
+        Query query = getEntityManager().createQuery("SELECT e FROM ArticuloImagen e WHERE e.articuloId.id = :artId ORDER BY e.orden");
         query.setParameter("artId", articuloId);
 
         return query.getResultList();

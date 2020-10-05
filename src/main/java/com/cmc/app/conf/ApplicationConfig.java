@@ -73,7 +73,6 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.cmc.app.conf.CrossOriginResourceSharingFilter.class);
-        resources.add(com.cmc.app.facade.MensajeFacade.class);
         resources.add(com.cmc.app.rest.ArticuloImagenREST.class);
         resources.add(com.cmc.app.rest.ArticuloModificadorREST.class);
         resources.add(com.cmc.app.rest.ArticuloREST.class);
@@ -85,6 +84,7 @@ public class ApplicationConfig extends Application {
         resources.add(com.cmc.app.rest.ImagenREST.class);
         resources.add(com.cmc.app.rest.ItemCatalogoREST.class);
         resources.add(com.cmc.app.rest.MensajeREST.class);
+        resources.add(com.cmc.app.rest.PublicoREST.class);
         resources.add(com.cmc.app.rest.UsuarioREST.class);
         resources.add(com.cmc.app.security.CustomExceptionMapper.class);
         resources.add(com.cmc.app.security.TokenSecurityFilter.class);

@@ -6,6 +6,8 @@
 package com.cmc.app.facade;
 
 import com.cmc.app.bean.ArticuloModificador;
+import com.cmc.app.bean.ItemCatalogo;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -36,6 +38,13 @@ public class ArticuloModificadorFacade extends AbstractFacade<ArticuloModificado
         q.setParameter("artId", articuloId);
         
         q.executeUpdate();
+    }
+    
+     public List<ArticuloModificador> getModificadores(Integer articuloId) {
+
+        Query query = getEntityManager().createQuery("SELECT e FROM ArticuloModificador e WHERE e.articuloId.id = :artId");
+        query.setParameter("artId", articuloId);
+        return query.getResultList();
     }
     
     
