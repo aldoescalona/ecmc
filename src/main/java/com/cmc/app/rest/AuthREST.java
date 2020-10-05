@@ -60,10 +60,16 @@ public class AuthREST {
                 return Response.status(Response.Status.FORBIDDEN).entity(new Error("Usuario o contraseña incorrectos")).build();
             }
             
+            Usuario t = new Usuario();
+            t.setId(ent.getId());
+            t.setNombre(ent.getNombre());
+            t.setCuenta(ent.getCuenta());
+
             
             String token = jwtkey.token(ent.getId(), username, "admin", HORAS);
 
             Token r = new Token(token);
+            r.setUsuario(t);
             System.out.println(" USR: " + ent );
 
             Response.ResponseBuilder rb = Response.ok(r);

@@ -6,21 +6,17 @@
 package com.cmc.app.bean;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,12 +31,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
     , @NamedQuery(name = "Usuario.findByPassword", query = "SELECT u FROM Usuario u WHERE u.password = :password")
     , @NamedQuery(name = "Usuario.findByActivo", query = "SELECT u FROM Usuario u WHERE u.activo = :activo")
-    , @NamedQuery(name = "Usuario.findByRoot", query = "SELECT u FROM Usuario u WHERE u.root = :root")})
-@NamedNativeQuery(
-    name="Usuario.login",
-    query="SELECT u.* FROM usuario u WHERE u.cuenta = ? AND u.password = ? AND u.activo = 1",
-    resultClass=Usuario.class
-)
+    , @NamedQuery(name = "Usuario.findByRoot", query = "SELECT u FROM Usuario u WHERE u.root = :root")
+    , @NamedQuery(name = "Usuario.login", query = "SELECT u FROM Usuario u WHERE u.cuenta = :cuenta AND u.password = :pass AND u.activo = 1")
+})
+
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
