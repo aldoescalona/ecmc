@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByRoot", query = "SELECT u FROM Usuario u WHERE u.root = :root")})
 @NamedNativeQuery(
     name="Usuario.login",
-    query="SELECT u.* FROM usuario u WHERE u.cuenta = ? AND u.password = ? AND u.activo = 1",
+    query="SELECT u.* FROM usuario u WHERE u.cuenta = ? AND u.passsword = ? AND u.activo = 1",
     resultClass=Usuario.class
 )
 public class Usuario implements Serializable {

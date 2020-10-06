@@ -88,7 +88,7 @@ public class ArticuloREST {
     @Produces(MediaType.APPLICATION_JSON)
     @TokenSecured
     public List<Articulo> findAll() {
-        return articuloFacade.findAll();
+        return articuloFacade.getArticulos(true);
     }
 
     @GET
@@ -100,11 +100,29 @@ public class ArticuloREST {
     }
 
     @GET
+    @Path("{categoriaId}/{from}/{to}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @TokenSecured
+    public List<Articulo> findArticulosRange(@PathParam("categoriaId") Integer categoriaId,
+                                             @PathParam("from") Integer from, @PathParam("to") Integer to) {
+        return articuloFacade.getArticulos(categoriaId, new int[]{from, to});
+    }
+
+
+    @GET
     @Path("count")
     @Produces(MediaType.TEXT_PLAIN)
     @TokenSecured
     public String countREST() {
         return String.valueOf(articuloFacade.count());
+    }
+
+    @GET
+    @Path("{categoriaId}/count")
+    @Produces(MediaType.TEXT_PLAIN)
+    @TokenSecured
+    public String countArticulosREST(@PathParam("categoriaId") Integer categoriaId) {
+        return String.valueOf(articuloFacade.getCountArticulos(categoriaId));
     }
     
     @PUT
