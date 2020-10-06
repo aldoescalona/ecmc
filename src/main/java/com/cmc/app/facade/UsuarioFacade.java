@@ -38,8 +38,8 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         String p = asPassword(passs);
 
         Query q = getEntityManager().createNamedQuery("Usuario.login");
-        q.setParameter(1, cuenta);
-        q.setParameter(2, p);
+        q.setParameter("cuenta", cuenta);
+        q.setParameter("pass", p);
 
         List<Usuario> list = q.getResultList();
         

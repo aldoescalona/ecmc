@@ -5,6 +5,7 @@
  */
 package com.cmc.app.model;
 
+import com.cmc.app.bean.Usuario;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -15,6 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Token implements Serializable{
     private String token;
+    private Usuario usuario;
 
     public Token(String token) {
         this.token = token;
@@ -27,5 +29,14 @@ public class Token implements Serializable{
     public void setToken(String token) {
         this.token = token;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
     
 }

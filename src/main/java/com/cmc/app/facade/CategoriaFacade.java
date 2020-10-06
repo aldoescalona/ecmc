@@ -6,9 +6,12 @@
 package com.cmc.app.facade;
 
 import com.cmc.app.bean.Categoria;
+import com.cmc.app.bean.ItemCatalogo;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +30,11 @@ public class CategoriaFacade extends AbstractFacade<Categoria> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    public List<Categoria> getCategorias() {
+        Query query = getEntityManager().createQuery("SELECT e FROM Categoria e WHERE e.activo = true ORDER BY e.orden");
+        return query.getResultList();
     }
     
     public Integer getNextOrden() {

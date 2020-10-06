@@ -6,12 +6,12 @@
 package com.cmc.app.facade;
 
 import com.cmc.app.bean.Articulo;
-
+import com.cmc.app.bean.ItemCatalogo;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
 
 /**
  *
@@ -58,4 +58,12 @@ public class ArticuloFacade extends AbstractFacade<Articulo> {
         return ((Long) query.getSingleResult()).intValue();
     }
     
+    
+     public List<Articulo> getArticulos(Integer categoriaId) {
+
+        Query query = getEntityManager().createQuery("SELECT e FROM Articulo e WHERE e.categoriaId.id = :catId AND e.activo = true ORDER BY e.orden");
+        query.setParameter("catId", categoriaId);
+
+        return query.getResultList();
+    }
 }

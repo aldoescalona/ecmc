@@ -39,6 +39,11 @@ public class UsuarioREST {
     @TokenSecured
     public Response create(Usuario entity) {
         entity.setId(nextIdFacade.nextIdUsuario());
+        
+        
+        String pass = usuarioFacade.asPassword(entity.getPassword());
+        entity.setPassword(pass);
+        
         usuarioFacade.create(entity);
         return Response.ok(new Respuesta(true, "OK")).build();
     }
