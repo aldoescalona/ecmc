@@ -8,6 +8,7 @@ package com.cmc.app.rest;
 import com.cmc.app.bean.Mensaje;
 import com.cmc.app.model.Respuesta;
 import com.cmc.app.security.TokenSecured;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -38,6 +39,9 @@ public class MensajeREST {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Mensaje entity) {
         entity.setId(nextIdFacade.nextIdMensaje());
+        entity.setFecha(new Date());
+        entity.setEstado(0);
+        
         mensajeFacade.create(entity);
         return Response.ok(new Respuesta(true, "OK")).build();
     }
