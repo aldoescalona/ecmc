@@ -40,11 +40,23 @@ public class ArticuloModificadorFacade extends AbstractFacade<ArticuloModificado
         q.executeUpdate();
     }
     
-     public List<ArticuloModificador> getModificadores(Integer articuloId) {
+     public List<ArticuloModificador> getModificadores( Integer articuloId, int[] range) {
 
         Query query = getEntityManager().createQuery("SELECT e FROM ArticuloModificador e WHERE e.articuloId.id = :artId");
         query.setParameter("artId", articuloId);
+
+        if(range != null){
+            query.setMaxResults(range[1] - range[0] + 1);
+            query.setFirstResult(range[0]);
+        }
         return query.getResultList();
+    }
+
+    public int totalModifcadores( Integer articuloId) {
+
+        Query query = getEntityManager().createQuery("SELECT count(e) FROM ArticuloModificador e WHERE e.articuloId.id = :artId");
+        query.setParameter("artId", articuloId);
+        return ((Long)query.getSingleResult()).intValue();
     }
     
     

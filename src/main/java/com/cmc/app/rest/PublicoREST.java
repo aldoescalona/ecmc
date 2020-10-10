@@ -87,7 +87,7 @@ public class PublicoREST {
         
         Map<Catalogo, List<ArticuloModificador>> map = new HashMap();
         
-        List<ArticuloModificador> mods = articuloModificadorFacade.getModificadores(articulo.getId());
+        List<ArticuloModificador> mods = articuloModificadorFacade.getModificadores(articulo.getId(), null);
         mods.forEach((am) -> {
             List<ArticuloModificador> items = map.get(am.getCatalogoId());
             if(items == null){

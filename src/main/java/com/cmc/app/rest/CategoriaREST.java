@@ -99,7 +99,7 @@ public class CategoriaREST {
     @Produces(MediaType.APPLICATION_JSON)
     @TokenSecured
     public List<Categoria> findAll() {
-        return categoriaFacade.findAll();
+        return categoriaFacade.getCategorias();
     }
 
     @GET

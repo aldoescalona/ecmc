@@ -7,6 +7,7 @@ package com.cmc.app.rest;
 
 import com.cmc.app.bean.Articulo;
 import com.cmc.app.bean.ArticuloModificador;
+import com.cmc.app.bean.Catalogo;
 import com.cmc.app.model.Respuesta;
 import com.cmc.app.security.TokenSecured;
 import java.util.List;
@@ -33,6 +34,12 @@ public class ArticuloModificadorREST {
     private com.cmc.app.facade.ArticuloModificadorFacade articuloModificadorFacade;
 
     @EJB
+    private com.cmc.app.facade.CatalogoFacade catalogoFacade;
+
+    @EJB
+    private com.cmc.app.facade.ItemCatalogoFacade itemCatalogoFacade;
+
+    @EJB
     private com.cmc.app.facade.ArticuloFacade articuloFacade;
 
     
@@ -45,6 +52,19 @@ public class ArticuloModificadorREST {
     public Response create(ArticuloModificador entity) {
         entity.setId(nextIdFacade.nextIdArticuloModificador());
         articuloModificadorFacade.create(entity);
+        return Response.ok(new Respuesta(true, "OK")).build();
+    }
+
+    @POST
+    @Path("modificador/{articuloId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @TokenSecured
+    public Response modificador(ArticuloModificador ent, @PathParam("articuloId") Integer articuloId) {
+        Articulo parent = articuloFacade.find(articuloId);
+        //Catalogo catalogo = catalogoFacade.find(ent);
+        ent.setId(nextIdFacade.nextIdArticuloModificador());
+        ent.setArticuloId(parent);
+        articuloModificadorFacade.create(ent);
         return Response.ok(new Respuesta(true, "OK")).build();
     }
     
@@ -100,19 +120,19 @@ public class ArticuloModificadorREST {
     }
 
     @GET
-    @Path("{from}/{to}")
+    @Path("{articuloId}/{from}/{to}")
     @Produces(MediaType.APPLICATION_JSON)
     @TokenSecured
-    public List<ArticuloModificador> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return articuloModificadorFacade.findRange(new int[]{from, to});
+    public List<ArticuloModificador> findRange(@PathParam("articuloId") Integer articuloId, @PathParam("from") Integer from, @PathParam("to") Integer to) {
+        return articuloModificadorFacade.getModificadores(articuloId, new int[]{from, to});
     }
 
     @GET
-    @Path("count")
+    @Path("{articuloId}/count")
     @Produces(MediaType.TEXT_PLAIN)
     @TokenSecured
-    public String countREST() {
-        return String.valueOf(articuloModificadorFacade.count());
+    public String countREST(@PathParam("articuloId") Integer articuloId) {
+        return String.valueOf(articuloModificadorFacade.totalModifcadores(articuloId));
     }
 
 }
